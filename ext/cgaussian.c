@@ -118,6 +118,8 @@ Vector gaussian(Vector src_data, double sd, int truncate){
     for(int i = 0; i < r; i++)
         data.data[i+r+src_data.size] = src_data.data[src_data.size-i-1];
 
+    // Vector_p(data);
+
     Vector f = Vector_initialize(data.size);
 
     Vector x = Vector_arange(-r, r+1);
