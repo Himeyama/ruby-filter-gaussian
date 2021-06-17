@@ -1,0 +1,22 @@
+PATH
+  remote: .
+  specs:
+    gaussian-filter (0.0.1)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    rake (13.0.3)
+    rake-compiler (1.1.1)
+      rake
+
+PLATFORMS
+  x86_64-linux
+
+DEPENDENCIES
+  gaussian-filter!
+  rake (~> 13.0)
+  rake-compiler
+
+BUNDLED WITH
+   2.2.19
