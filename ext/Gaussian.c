@@ -19,7 +19,7 @@ static VALUE gaussian_filter1d(VALUE self, VALUE ary){
     a = rb_ary_new_capa(size); 
     vec = Vector_initialize(size);
     for(long i = 0; i < size; i++){
-        vec.data[i] = rb_ary_entry(ary, i); 
+        vec.data[i] = NUM2DBL(rb_ary_entry(ary, i)); 
     }
     filtered = gaussian(vec, 1, 4.0);
     
