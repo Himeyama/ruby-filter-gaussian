@@ -3,6 +3,10 @@
 ## 概要
 ガウシアンフィルターの Ruby 拡張
 
+基本的には、 https://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.gaussian_filter1d.html 
+と同じですが、
+フィルターの標準偏差に対してデータが小さい場合は計算できません。
+
 ## インストール
 
 ```sh
