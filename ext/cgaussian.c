@@ -110,6 +110,12 @@ Vector Vector_clone(Vector vec){
 
 Vector gaussian(Vector src_data, double sd, int truncate){
     int r = (int)(truncate * sd + 0.5);
+
+    if(r > src_data.size){
+        fprintf(stderr, "データが小さすぎます\n");
+        exit(EXIT_FAILURE);
+    }
+
     Vector data = Vector_initialize(src_data.size + 2 * r);
     for(int i = 0; i < r; i++)
         data.data[i] = src_data.data[r-i-1];

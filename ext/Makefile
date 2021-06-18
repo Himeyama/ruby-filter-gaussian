@@ -12,12 +12,12 @@ NULLCMD = :
 #### Start of system configuration section. ####
 
 srcdir = .
-topdir = /home/hikari/.rbenv/versions/3.0.1/include/ruby-3.0.0
+topdir = /home/bcl/.rbenv/versions/3.0.1/include/ruby-3.0.0
 hdrdir = $(topdir)
-arch_hdrdir = /home/hikari/.rbenv/versions/3.0.1/include/ruby-3.0.0/x86_64-linux
+arch_hdrdir = /home/bcl/.rbenv/versions/3.0.1/include/ruby-3.0.0/x86_64-linux
 PATH_SEPARATOR = :
 VPATH = $(srcdir):$(arch_hdrdir)/ruby:$(hdrdir)/ruby
-prefix = $(DESTDIR)/home/hikari/.rbenv/versions/3.0.1
+prefix = $(DESTDIR)/home/bcl/.rbenv/versions/3.0.1
 rubysitearchprefix = $(rubylibprefix)/$(sitearch)
 rubyarchprefix = $(rubylibprefix)/$(arch)
 rubylibprefix = $(libdir)/$(RUBY_BASE_NAME)
@@ -87,10 +87,10 @@ CCDLFLAGS = -fPIC
 CFLAGS   = $(CCDLFLAGS) $(cflags)  -fPIC $(ARCH_FLAG)
 INCFLAGS = -I. -I$(arch_hdrdir) -I$(hdrdir)/ruby/backward -I$(hdrdir) -I$(srcdir)
 DEFS     = 
-CPPFLAGS =  -I/home/hikari/.rbenv/versions/3.0.1/include  $(DEFS) $(cppflags)
+CPPFLAGS =  -I/home/bcl/.rbenv/versions/3.0.1/include  $(DEFS) $(cppflags)
 CXXFLAGS = $(CCDLFLAGS)  $(ARCH_FLAG)
-ldflags  = -L. -L/home/hikari/.rbenv/versions/3.0.1/lib  -fstack-protector-strong -rdynamic -Wl,-export-dynamic
-dldflags = -L/home/hikari/.rbenv/versions/3.0.1/lib  -Wl,--compress-debug-sections=zlib 
+ldflags  = -L. -L/home/bcl/.rbenv/versions/3.0.1/lib  -fstack-protector-strong -rdynamic -Wl,-export-dynamic
+dldflags = -L/home/bcl/.rbenv/versions/3.0.1/lib  -Wl,--compress-debug-sections=zlib 
 ARCH_FLAG = 
 DLDFLAGS = $(ldflags) $(dldflags) $(ARCH_FLAG)
 LDSHARED = $(CC) -shared
