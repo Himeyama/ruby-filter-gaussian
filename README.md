@@ -18,7 +18,7 @@ or
 
 **Gemfile**
 ```rb
-gem "univ-research-processing", github: "himeyama/ruby-filter-gaussian.git", branch: :main
+gem "gaussian-filter", github: "himeyama/ruby-filter-gaussian.git", branch: :main
 ```
 
 ## 使用法
