@@ -7,14 +7,14 @@
 
 ```sh
 gem install specific_install
-gem specific_install -l "git://github.com/himeyama/univ-research-processing.git"
+gem specific_install -l "git://github.com/himeyama/ruby-filter-gaussian.git"
 ```
 
 or
 
 **Gemfile**
 ```rb
-gem "univ-research-processing", github: "himeyama/univ-research-processing.git", branch: :main
+gem "univ-research-processing", github: "himeyama/ruby-filter-gaussian.git", branch: :main
 ```
 
 ## 使用法
