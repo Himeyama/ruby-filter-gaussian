@@ -4,8 +4,10 @@
 ガウシアンフィルターの Ruby 拡張
 
 基本的には、 https://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.gaussian_filter1d.html 
-と同じですが、
-フィルターの標準偏差に対してデータが小さい場合は計算できません。
+と同じです。
+
+- フィルターの標準偏差に対してデータが小さい場合は計算できません。
+- 実装が異なるためか丸目誤差が存在します。誤差の大きさは 10^15 程度です。
 
 ## インストール
 
