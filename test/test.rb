@@ -8,8 +8,7 @@ files = "scipy.ndimage.gaussian_filter1d.example.%s.bin"
 
 open(files % "x", "rb") do |f|
     x = f.read.unpack("d*")
-    y3 = Gaussian.filter1d(x, 3)
-    y6 = Gaussian.filter1d(x, 6)
+    y3, y6 = Gaussian.filter1d([x, x], [3, 6])
 
     open(files % "y3", "rb") do |fy3|
         sciy3 = fy3.read.unpack("d*")
