@@ -53,7 +53,13 @@ static VALUE gaussian_filter1d(VALUE self, VALUE ary, VALUE sd){
         }
         ga[i].src_data = v[i];
         ga[i].dst_data = filtered + i;
-        ga[i].sd = NUM2DBL(sd);
+        if(TYPE(sd) == T_FLOAT || TYPE(sd) == T_FIXNUM)
+            ga[i].sd = NUM2DBL(sd);
+        else if(TYPE(sd) == T_ARRAY){
+            if(RARRAY_LEN(sd) != data_size) return Qfalse;
+            ga[i].sd = NUM2DBL(rb_ary_entry(sd, i));
+        }else
+            return Qfalse;
         ga[i].truncate = 4.0;
         if(pthread_create(&th[i], NULL, (void*)gaussian, (void*)&ga[i]))
             exit(EXIT_FAILURE);
@@ -73,6 +79,7 @@ static VALUE gaussian_filter1d(VALUE self, VALUE ary, VALUE sd){
         Vector_destroy(filtered[i]);
     }
 
+    if(data_size == 1) return rb_ary_entry(a, 0);
     return a;
 }
 
