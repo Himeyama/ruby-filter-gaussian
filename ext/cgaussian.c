@@ -166,4 +166,6 @@ void* gaussian(GaussianArgsRet* ga){
     Vector_destroy(f);
     Vector_destroy(x);
     Vector_destroy(gauss);
+
+    return NULL;
 }
