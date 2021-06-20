@@ -5,6 +5,8 @@
 
 #include <stdio.h>
 #include <ruby.h>
+#include <stdlib.h>
+#include <pthread.h>
 #include "gaussian.h"
 
 VALUE cGaussian;
@@ -15,6 +17,7 @@ static VALUE gaussian_filter1d(VALUE self, VALUE ary, VALUE sd){
     Vector vec, filtered;
     VALUE a;
     
+    // 配列ではないとき終了
     if(TYPE(ary) != T_ARRAY) return Qfalse;
     
     long size = RARRAY_LEN(ary);
@@ -23,7 +26,18 @@ static VALUE gaussian_filter1d(VALUE self, VALUE ary, VALUE sd){
     for(long i = 0; i < size; i++){
         vec.data[i] = NUM2DBL(rb_ary_entry(ary, i)); 
     }
-    filtered = gaussian(vec, NUM2DBL(sd), 4.0);
+
+    pthread_t th;
+    GaussianArgsRet ga = {vec, &filtered, NUM2DBL(sd), 4.0};
+    if(pthread_create(&th, NULL, (void*)gaussian, (void*)&ga))
+        exit(EXIT_FAILURE);
+
+    // 処理待ち
+    if(pthread_join(th, NULL))
+        exit(EXIT_FAILURE);
+    
+
+    // filtered = gaussian(vec, NUM2DBL(sd), 4.0);
     
     for(long i = 0; i < size; i++){
         rb_ary_store(a, i, DBL2NUM(filtered.data[i]));

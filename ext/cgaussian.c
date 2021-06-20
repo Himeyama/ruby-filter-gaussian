@@ -10,6 +10,8 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
+// #include <pthread.h>
+// #include <ruby.h>
 #include "gaussian.h"
 
 
@@ -46,6 +48,12 @@ Vector Vector_initialize(long size){
     vec.size = size;
     vec.data = (double*)malloc(sizeof(double) * size);
     return vec;
+}
+
+Vector Vector_initializeP(long size, Vector* vec){
+    vec->size = size;
+    vec->data = (double*)malloc(sizeof(double) * size);
+    return *vec;
 }
 
 Vector Vector_zeros(long size){
@@ -108,14 +116,22 @@ Vector Vector_clone(Vector vec){
     return c;
 }
 
-Vector gaussian(Vector src_data, double sd, int truncate){
-    int r = (int)(truncate * sd + 0.5);
+void* gaussian(GaussianArgsRet* ga){
+    Vector src_data = ga->src_data;
+    double sd = ga->sd;
+    double truncate = ga->truncate;
+    
+    // printf("sd: %lf\n", sd);
+    // printf("truncate: %lf\n", truncate);
+    // Vector_p(src_data);
 
+    int r = (int)(truncate * sd + 0.5);
+    
     if(r > src_data.size){
         fprintf(stderr, "データが小さすぎます\n");
         exit(EXIT_FAILURE);
     }
-
+    
     Vector data = Vector_initialize(src_data.size + 2 * r);
     for(int i = 0; i < r; i++)
         data.data[i] = src_data.data[r-i-1];
@@ -123,8 +139,6 @@ Vector gaussian(Vector src_data, double sd, int truncate){
         data.data[i] = src_data.data[i-r];
     for(int i = 0; i < r; i++)
         data.data[i+r+src_data.size] = src_data.data[src_data.size-i-1];
-
-    // Vector_p(data);
 
     Vector f = Vector_initialize(data.size);
 
@@ -142,15 +156,14 @@ Vector gaussian(Vector src_data, double sd, int truncate){
         f.data[i] = Vector_dot(gauss, d);
     }
 
-    Vector filtered = Vector_initialize(src_data.size);
-    for(int i = 0; i < filtered.size; i++){
-        filtered.data[i] = f.data[i + r];
+    Vector *filtered = ga->dst_data;
+    Vector_initializeP(src_data.size, filtered);
+    for(int i = 0; i < filtered->size; i++){
+        filtered->data[i] = f.data[i + r];
     }
 
     Vector_destroy(data);
     Vector_destroy(f);
     Vector_destroy(x);
     Vector_destroy(gauss);
-
-    return filtered;
 }

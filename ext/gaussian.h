@@ -15,6 +15,13 @@ struct vector{
 
 typedef struct vector Vector;
 
+typedef struct{
+    Vector src_data;
+    Vector* dst_data;
+    double sd;
+    double truncate;
+} GaussianArgsRet;
+
 void Vector_p(Vector vec);
 void Vector_txt(Vector vec);
 void Vector_destroy(Vector vec);
@@ -26,7 +33,6 @@ double Vector_sum(Vector vec);
 void Vector_div(Vector vec, double n);
 Vector Vector_normal(long size);
 Vector Vector_clone(Vector vec);
-Vector gaussian(Vector src_data, double sd, int truncate);
-
+void* gaussian(GaussianArgsRet* ga);
 
 #endif
