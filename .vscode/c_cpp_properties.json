@@ -5,7 +5,8 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "/usr/include/ruby-2.7.0",
-                "/usr/include/x86_64-linux-gnu/ruby-2.7.0"
+                "/usr/include/x86_64-linux-gnu/ruby-2.7.0",
+                "~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/extensions/x86_64-linux/3.0.0/numo-narray-0.9.1.9/numo"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
