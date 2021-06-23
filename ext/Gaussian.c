@@ -7,6 +7,8 @@
 #include <ruby.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <numo/narray.h>
+#include "numo-gaussian.h"
 #include "gaussian.h"
 
 VALUE cGaussian;
@@ -61,7 +63,8 @@ static VALUE gaussian_filter1d(VALUE self, VALUE ary, VALUE sd){
         }else
             return Qfalse;
         ga[i].truncate = 4.0;
-        if(pthread_create(&th[i], NULL, (void*)gaussian, (void*)&ga[i]))
+        void* (*gfunc[2])() = {gaussian, gaussian};
+        if(pthread_create(&th[i], NULL, gfunc[0], (void*)&ga[i]))
             exit(EXIT_FAILURE);
     }
     
