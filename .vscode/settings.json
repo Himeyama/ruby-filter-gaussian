@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "numo-gaussian.h": "c",
+        "narray.h": "c"
+    }
+}

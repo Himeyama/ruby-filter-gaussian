@@ -19,25 +19,28 @@ f64 conv1(f64* data, f64 idx, u32 r){
 }
 
 void* narray_gaussian(GaussianNArrayArgsRet* ga){
-    NArray src_data, dst_data;
-    GetNArray(ga->src_data, src_data);
-    GetNArray(ga->dst_data, dst_data);
-    f64 sd = ga->sd;
-    f64 truncate = ga->truncate;
-    u32 r = (u32)(truncate * sd + 0.5);
-    SIZE size = NA_SHAPE(src_data)[0];
+    struct NARRAY *src_data, *dst_data;
+    // VALUE src2 = na_cast_object(ga->src_data, 5);
+    rb_funcall(rb_cObject, rb_intern("p"), 1, DBL2NUM(1.2));
+    rb_funcall(rb_cObject, rb_intern("p"), 1, ga->src_data);
+    // GetNArray(src2, src_data);
+    // GetNArray(na_cast_object(ga->dst_data, 5), dst_data);
+    // f64 sd = ga->sd;
+    // f64 truncate = ga->truncate;
+    // u32 r = (u32)(truncate * sd + 0.5);
+    // SIZE size = NA_SHAPE(src_data)[0];
 
-    if(r > size){
-        fprintf(stderr, "データが小さすぎます\n");
-        return NULL;
-    }
-    f64* data = (f64*)na_get_pointer_for_read(ga->src_data);
-    // f64* data = (f64*)malloc(sizeof(f64) * (size + r * 2));
-    f64* f = (f64*)na_get_pointer_for_read(ga->dst_data);
+    // if(r > size){
+    //     fprintf(stderr, "データが小さすぎます\n");
+    //     return NULL;
+    // }
+    // f64* data = (f64*)na_get_pointer_for_read(ga->src_data);
+    // // f64* data = (f64*)malloc(sizeof(f64) * (size + r * 2));
+    // f64* f = (f64*)na_get_pointer_for_read(ga->dst_data);
 
-    for(u64 i = 0; i < size; i++){
-        f[i] = conv1(data, i, r);
-    }
+    // for(u64 i = 0; i < size; i++){
+    //     f[i] = conv1(data, i, r);
+    // }
 
 
     return NULL;

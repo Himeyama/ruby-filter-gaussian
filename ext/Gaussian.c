@@ -5,15 +5,31 @@
 
 #include <stdio.h>
 #include <ruby.h>
+#include <numo/narray.h>
+#include <numo/template.h>
 #include <stdlib.h>
 #include <pthread.h>
-#include <numo/narray.h>
 #include "numo-gaussian.h"
 #include "gaussian.h"
 
 VALUE cGaussian;
 
 static VALUE gaussian_filter1d(VALUE self, VALUE ary, VALUE sd){
+    ID p = rb_intern("p");
+    // VALUE ary_class = rb_funcall(ary, rb_intern("class"), 0);
+
+    
+    rb_funcall(rb_cObject, p, 1, ary);
+    // rb_cArray
+
+    // numo_cDFloat
+
+    return numo_cDFloat;
+
+    // return Qnil;
+}
+
+static VALUE gaussian_filter1d_ary(VALUE self, VALUE ary, VALUE sd){
     // rb_funcall(rb_cObject, rb_intern("p"), 1, sd);
 
     Vector filtered[16];
@@ -35,8 +51,6 @@ static VALUE gaussian_filter1d(VALUE self, VALUE ary, VALUE sd){
     
     // データ数取得
     long data_size = RARRAY_LEN(datas);
-    // rb_funcall(rb_cObject, rb_intern("p"), 1, LONG2NUM(data_size));
-    // rb_funcall(rb_cObject, rb_intern("p"), 1, data);
     
     // データ数16以上未対応
     if(data_size > 16) return Qfalse;
@@ -55,15 +69,15 @@ static VALUE gaussian_filter1d(VALUE self, VALUE ary, VALUE sd){
         }
         ga[i].src_data = v[i];
         ga[i].dst_data = filtered + i;
-        if(TYPE(sd) == T_FLOAT || TYPE(sd) == T_FIXNUM)
+        ga[i].truncate = 4.0;
+        if(TYPE(sd) == T_FLOAT || TYPE(sd) == T_FIXNUM){
             ga[i].sd = NUM2DBL(sd);
-        else if(TYPE(sd) == T_ARRAY){
+        }else if(TYPE(sd) == T_ARRAY){
             if(RARRAY_LEN(sd) != data_size) return Qfalse;
             ga[i].sd = NUM2DBL(rb_ary_entry(sd, i));
         }else
             return Qfalse;
-        ga[i].truncate = 4.0;
-        void* (*gfunc[2])() = {gaussian, gaussian};
+        void* (*gfunc[2])() = {gaussian, narray_gaussian};
         if(pthread_create(&th[i], NULL, gfunc[0], (void*)&ga[i]))
             exit(EXIT_FAILURE);
     }
