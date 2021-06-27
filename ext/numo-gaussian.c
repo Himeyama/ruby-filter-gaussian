@@ -19,10 +19,10 @@ f64 conv1(f64* data, f64 idx, u32 r){
 }
 
 void* narray_gaussian(GaussianNArrayArgsRet* ga){
-    struct NARRAY *src_data, *dst_data;
-    // VALUE src2 = na_cast_object(ga->src_data, 5);
-    rb_funcall(rb_cObject, rb_intern("p"), 1, DBL2NUM(1.2));
-    rb_funcall(rb_cObject, rb_intern("p"), 1, ga->src_data);
+    // struct NARRAY *src_data, *dst_data;
+    // // VALUE src2 = na_cast_object(ga->src_data, 5);
+    // rb_funcall(rb_cObject, rb_intern("p"), 1, DBL2NUM(1.2));
+    // rb_funcall(rb_cObject, rb_intern("p"), 1, ga->src_data);
     // GetNArray(src2, src_data);
     // GetNArray(na_cast_object(ga->dst_data, 5), dst_data);
     // f64 sd = ga->sd;

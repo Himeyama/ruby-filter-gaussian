@@ -5,8 +5,9 @@
 
 #include <stdio.h>
 #include <ruby.h>
+#include <ruby/intern.h>
 #include <numo/narray.h>
-#include <numo/template.h>
+// #include <numo/template.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include "numo-gaussian.h"
@@ -14,22 +15,7 @@
 
 VALUE cGaussian;
 
-static VALUE gaussian_filter1d(VALUE self, VALUE ary, VALUE sd){
-    ID p = rb_intern("p");
-    // VALUE ary_class = rb_funcall(ary, rb_intern("class"), 0);
-
-    
-    rb_funcall(rb_cObject, p, 1, ary);
-    // rb_cArray
-
-    // numo_cDFloat
-
-    return numo_cDFloat;
-
-    // return Qnil;
-}
-
-static VALUE gaussian_filter1d_ary(VALUE self, VALUE ary, VALUE sd){
+VALUE gaussian_filter1d_ary(VALUE self, VALUE ary, VALUE sd){
     // rb_funcall(rb_cObject, rb_intern("p"), 1, sd);
 
     Vector filtered[16];
@@ -98,6 +84,68 @@ static VALUE gaussian_filter1d_ary(VALUE self, VALUE ary, VALUE sd){
 
     if(data_size == 1) return rb_ary_entry(a, 0);
     return a;
+}
+
+VALUE gaussian_filter1d_dfloat(VALUE self, VALUE ary, VALUE sd){
+    // ID p = rb_intern("p");
+    if(TYPE(sd) == T_FLOAT || TYPE(sd) == T_FIXNUM){
+        VALUE tmp = rb_ary_new();
+        rb_ary_store(tmp, 0, sd);
+        sd = tmp;
+    }
+    sd = rb_funcall(sd, rb_intern("to_a"), 0);
+    VALUE shape = rb_funcall(ary, rb_intern("shape"), 0);
+    u8 dim = NUM2INT(rb_funcall(shape, rb_intern("size"), 0));
+    u64 sd_size = RARRAY_LEN(sd);
+    if(!(sd_size == 1 || sd_size == dim)) return Qfalse;
+
+    if(dim == 1){
+        return ary;
+    }else if(dim == 2){
+        
+        VALUE r = rb_funcall(ary, rb_intern("clone"), 0);
+        u64 row = NUM2LONG(rb_ary_entry(shape, 0));
+        // VALUE sdi = 
+        
+        /*
+        for(u64 i = 0; i < row; i++){
+            rb_funcall(r, rb_intern("[]="), 3, LONG2NUM(i), Qtrue, 
+                gaussian_filter1d_dfloat(
+                    self, 
+                    rb_funcall(ary, rb_intern("[]"), 2, LONG2NUM(i), Qtrue), 
+                    sd_size > 1 ? rb_ary_entry(sd, i) : sd
+                )
+            );
+        }
+        rb_p(shape);
+        */
+
+        f64 (*data)[row] = (f64(*)[row])na_get_pointer_for_read(r);
+        data[0][2] = 100;
+        // printf("%lf\n", data[0][2]);
+
+        return r;
+    }
+    return Qfalse;
+}
+
+static VALUE gaussian_filter1d(VALUE self, VALUE ary, VALUE sd){
+    // ID p = rb_intern("p");
+    // rb_funcall(rb_cObject, p, 1, ary);
+
+    // ary のクラス取得
+    VALUE ary_class = rb_funcall(ary, rb_intern("class"), 0);
+    
+    // ary のクラス判定
+    if(rb_funcall(ary_class, rb_intern("=="), 1, numo_cDFloat) == Qtrue){
+        return gaussian_filter1d_dfloat(self, ary, sd);
+    }else if(TYPE(ary) == T_ARRAY){
+        return gaussian_filter1d_ary(self, ary, sd);
+    }else{
+        Qfalse;
+    }
+
+    return Qfalse;
 }
 
 void Init_Gaussian(void){

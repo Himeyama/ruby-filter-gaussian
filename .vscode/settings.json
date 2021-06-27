@@ -1,6 +1,10 @@
 {
     "files.associations": {
         "numo-gaussian.h": "c",
-        "narray.h": "c"
+        "narray.h": "c",
+        "template.h": "c",
+        "stdio.h": "c",
+        "ruby.h": "c",
+        "intern.h": "c"
     }
 }

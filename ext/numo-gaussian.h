@@ -3,6 +3,7 @@
 
 typedef narray_t* NArray;
 typedef size_t SIZE;
+typedef unsigned char u8;
 typedef __int64_t i64;
 typedef __uint32_t u32;
 typedef __uint64_t u64;
