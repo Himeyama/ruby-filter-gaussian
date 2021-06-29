@@ -100,29 +100,35 @@ VALUE gaussian_filter1d_dfloat(VALUE self, VALUE ary, VALUE sd){
     if(!(sd_size == 1 || sd_size == dim)) return Qfalse;
 
     if(dim == 1){
-        return ary;
+        return Qnil;
     }else if(dim == 2){
-        
         VALUE r = rb_funcall(ary, rb_intern("clone"), 0);
         u64 row = NUM2LONG(rb_ary_entry(shape, 0));
-        // VALUE sdi = 
-        
-        /*
-        for(u64 i = 0; i < row; i++){
-            rb_funcall(r, rb_intern("[]="), 3, LONG2NUM(i), Qtrue, 
-                gaussian_filter1d_dfloat(
-                    self, 
-                    rb_funcall(ary, rb_intern("[]"), 2, LONG2NUM(i), Qtrue), 
-                    sd_size > 1 ? rb_ary_entry(sd, i) : sd
-                )
-            );
-        }
-        rb_p(shape);
-        */
+        u64 size = NUM2LONG(rb_ary_entry(shape, 1));
+        // rb_p(shape);
+        pthread_t th[row];
+        GaussianArgsRetRb ga[row];
 
-        f64 (*data)[row] = (f64(*)[row])na_get_pointer_for_read(r);
-        data[0][2] = 100;
-        // printf("%lf\n", data[0][2]);
+        // f64 (*data)[row] = (f64(*)[row])na_get_pointer_for_read(r);
+        for(u64 i = 0; i < row; i++){
+            ga[0].dst = rb_funcall(r, rb_intern("[]"), 2, LONG2NUM(i), Qtrue); // 書き込み用
+            ga[0].src = ary; // 読み込み用データ
+            ga[0].size = size; // 1データのサイズ
+            // rb_p(sd);
+            // return Qnil;
+            ga[0].sd = NUM2DBL(rb_ary_entry(sd, i));
+            ga[0].truncate = 4.0;
+
+            // printf("%ld, %lf, %lf\n", size, ga[0].sd, ga[0].truncate);
+
+            // return Qnil;
+            if(pthread_create(&th[i], NULL, _gaussian_filter1d_dfloat, (void*)&ga[i]))
+                exit(EXIT_FAILURE);
+        }
+        for(u64 i = 0; i < row; i++)
+            if(pthread_join(th[i], NULL))
+                exit(EXIT_FAILURE);
+
 
         return r;
     }
@@ -141,8 +147,6 @@ static VALUE gaussian_filter1d(VALUE self, VALUE ary, VALUE sd){
         return gaussian_filter1d_dfloat(self, ary, sd);
     }else if(TYPE(ary) == T_ARRAY){
         return gaussian_filter1d_ary(self, ary, sd);
-    }else{
-        Qfalse;
     }
 
     return Qfalse;

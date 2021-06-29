@@ -11,7 +11,8 @@
 #include <math.h>
 #include <time.h>
 // #include <pthread.h>
-// #include <ruby.h>
+#include <ruby.h>
+#include <numo/narray.h>
 #include "gaussian.h"
 
 
@@ -167,5 +168,62 @@ void* gaussian(GaussianArgsRet* ga){
     Vector_destroy(x);
     Vector_destroy(gauss);
 
+    return NULL;
+}
+
+ulong get_at(long i, ulong n){
+    if(i >= -n && i < 2 * n)
+        return i < 0 ? 0 : (n <= 1 ? n - i - 1 : i);
+    return NAN;
+}
+
+double* get_mat_at(double* x, ulong n, long i){
+    ulong idx = get_at(i, n);
+    if(idx == NAN) return NULL;
+    return x + idx;
+}
+
+double n_dot(ulong n, ulong size, double *x, ulong i, double *y){
+    double sum = 0;
+    for(int i = 0; i < n; i++)
+        sum += y[i] * (*get_mat_at(x, size, i));
+    return sum;
+}
+
+
+double* n_gauss_func(ulong r, double sd){
+    double* g = (double*)malloc(sizeof(double)*(2*r+1));
+    for(int i = -r; i <= r; i++){
+        g[i+r] = exp(-0.5 * i * i / (sd * sd));
+    }
+    return g;
+}
+
+
+void* _gaussian_filter1d_dfloat(GaussianArgsRetRb* ga){
+    double* dst = (double*)na_get_pointer_for_read(ga->dst);
+    double* src = (double*)na_get_pointer_for_read(ga->src);
+    ulong size =  ga->size; // データのサイズ
+    double sd = ga->sd;
+    double truncate = ga->truncate;
+    int r = (int)(truncate * sd + 0.5);
+    // printf("%lf\n", sd);
+    // rb_p(r);
+    if(r > size){
+        fprintf(stderr, "データが小さすぎます\n");
+        exit(EXIT_FAILURE);
+    }
+    double* g = n_gauss_func(r, sd); //ガウスカーネル
+    
+    
+
+    for(int i = 0; i < size; i++){
+        dst[i] = n_dot(2*r+1, size, src, i, g);
+    }
+    dst[0] = -100;
+
+    // return NULL;
+
+    free(g);
     return NULL;
 }
