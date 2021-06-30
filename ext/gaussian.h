@@ -22,14 +22,6 @@ typedef struct{
     double truncate;
 } GaussianArgsRet;
 
-// typedef struct{
-//     unsigned long src;
-//     unsigned long dst;
-//     unsigned long size;
-//     double sd;
-//     double truncate;
-// } GaussianArgsRetRb;
-
 void Vector_p(Vector vec);
 void Vector_txt(Vector vec);
 void Vector_destroy(Vector vec);
@@ -42,6 +34,5 @@ void Vector_div(Vector vec, double n);
 Vector Vector_normal(long size);
 Vector Vector_clone(Vector vec);
 void* gaussian(GaussianArgsRet* ga);
-// void* _gaussian_filter1d_dfloat();
 
 #endif
