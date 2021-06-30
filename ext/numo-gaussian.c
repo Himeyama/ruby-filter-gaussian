@@ -76,7 +76,7 @@ void* _gaussian_filter1d_dfloat(GaussianArgsRetRb* ga){
         fprintf(stderr, "データが小さすぎます\n");
         exit(EXIT_FAILURE);
     }
-    i64 gs = 2*r+1;
+    i64 gs = 2 * r + 1;
     f64* gk = n_gauss_func(r, sd);
     for(i64 i = 0; i < size; i++)
         dst[i] = n_dot(gs, r, size, src, i, gk);
