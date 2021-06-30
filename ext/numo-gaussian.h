@@ -16,9 +16,18 @@ typedef struct{
     f64 truncate;
 } GaussianNArrayArgsRet;
 
+typedef struct{
+    double* src;
+    double* dst;
+    unsigned long size;
+    double sd;
+    double truncate;
+    unsigned long i;
+} GaussianArgsRetRb;
+
 f64 getData(f64* data, u64 idx);
 f64 conv1(f64* data, f64 idx, u32 r);
 void* narray_gaussian(GaussianNArrayArgsRet* ga);
-
+void* _gaussian_filter1d_dfloat(GaussianArgsRetRb* ga);
 
 #endif
