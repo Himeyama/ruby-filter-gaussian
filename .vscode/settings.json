@@ -5,6 +5,9 @@
         "template.h": "c",
         "stdio.h": "c",
         "ruby.h": "c",
-        "intern.h": "c"
+        "intern.h": "c",
+        "types.h": "c",
+        "narray_config.h": "c",
+        "stdlib.h": "c"
     }
 }

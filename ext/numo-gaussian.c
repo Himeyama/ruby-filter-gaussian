@@ -4,7 +4,7 @@
  */
 
 #include <ruby/ruby.h>
-#include <narray.h>
+#include <numo/narray.h>
 #include "numo-gaussian.h"
 
 f64 getData(f64* data, u64 idx){
