@@ -10,7 +10,6 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
-// #include <pthread.h>
 #include <ruby.h>
 #include <numo/narray.h>
 #include "gaussian.h"

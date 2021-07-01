@@ -8,4 +8,5 @@ make -j
 sudo mkdir -p /usr/local/include
 sudo cp narray.so /usr/lib/libnarray.so
 sudo cp -r numo /usr/local/include/
+rm -rf /tmp/numo-narray/
 cd -

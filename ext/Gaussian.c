@@ -69,8 +69,15 @@ VALUE gaussian_filter1d_ary(VALUE self, VALUE ary, VALUE sd){
 VALUE gaussian_filter1d_dfloat(VALUE self, VALUE ary, VALUE sd){    
     VALUE shape = rb_funcall(ary, rb_intern("shape"), 0);
     VALUE r = rb_funcall(ary, rb_intern("clone"), 0);
-    u64 row = NUM2LONG(rb_ary_entry(shape, 0));
-    u64 size = NUM2LONG(rb_ary_entry(shape, 1));
+    u64 row = 1, size;
+    u64 dim = NUM2INT(rb_funcall(shape, rb_intern("size"), 0));
+
+    if(dim == 1){
+        size = NUM2LONG(rb_ary_entry(shape, 0));
+    }else if(dim == 2){
+        row = NUM2LONG(rb_ary_entry(shape, 0));
+        size = NUM2LONG(rb_ary_entry(shape, 1));
+    }
     if(TYPE(sd) == T_FLOAT || TYPE(sd) == T_FIXNUM){
         VALUE tmp = rb_ary_new();
         sd = rb_funcall(sd, rb_intern("to_f"), 0);
@@ -79,12 +86,17 @@ VALUE gaussian_filter1d_dfloat(VALUE self, VALUE ary, VALUE sd){
         sd = tmp;
     }
     sd = rb_funcall(sd, rb_intern("to_a"), 0);
-    u64 dim = NUM2INT(rb_funcall(shape, rb_intern("size"), 0));
+
     u64 sd_size = RARRAY_LEN(sd);
     if(!(sd_size == 1 || sd_size == row)) return Qfalse;
 
     if(dim == 1){
-        return Qnil;
+        VALUE sp = rb_ary_new();
+        rb_ary_store(sp, 0, INT2NUM(1));
+        rb_ary_store(sp, 1, LONG2NUM(size));
+        VALUE a = rb_funcall(numo_cDFloat, rb_intern("zeros"), 1, sp);
+        rb_funcall(a, rb_intern("[]="), 2, Qtrue, ary);
+        return rb_funcall(gaussian_filter1d_dfloat(self, a, sd), rb_intern("[]"), 1, Qtrue);
     }else if(dim == 2){
         pthread_t th[row];
         GaussianArgsRetRb ga[row];
