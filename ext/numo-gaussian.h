@@ -1,7 +1,7 @@
 #ifndef NUMO_GAUSSIAN_H
 #define NUMO_GAUSSIAN_H
 
-typedef narray_t* NArray;
+// typedef narray_t* NArray;
 typedef size_t SIZE;
 typedef unsigned char u8;
 typedef __int64_t i64;

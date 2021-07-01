@@ -6,7 +6,8 @@
 #include <stdio.h>
 #include <ruby.h>
 #include <ruby/intern.h>
-#include <numo/narray.h>
+#include <narray.h>
+// #include <narray_config.h>
 
 #include <stdlib.h>
 #include <pthread.h>
@@ -108,11 +109,15 @@ VALUE gaussian_filter1d_dfloat(VALUE self, VALUE ary, VALUE sd){
 
 static VALUE gaussian_filter1d(VALUE self, VALUE ary, VALUE sd){
     VALUE ary_class = rb_funcall(ary, rb_intern("class"), 0);
-    if(rb_funcall(ary_class, rb_intern("=="), 1, numo_cDFloat) == Qtrue){
+    // NARRAY_H
+    rb_p(ary_class);
+    if(rb_funcall(ary_class, rb_intern("=="), 1, dfloat) == Qtrue){
         return gaussian_filter1d_dfloat(self, ary, sd);
     }else if(TYPE(ary) == T_ARRAY){
         return gaussian_filter1d_ary(self, ary, sd);
     }
+
+    // rb_funcall(rb_stderr, rb_intern("puts"), 1, );
     return Qfalse;
 }
 

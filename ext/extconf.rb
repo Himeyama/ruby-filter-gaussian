@@ -1,6 +1,5 @@
 require 'mkmf'
 
-$CPPFLAGS += " -I ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/extensions/x86_64-linux/3.0.0/numo-narray-0.9.1.9/numo"
-$LIBS += " ~/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/extensions/x86_64-linux/3.0.0/numo-narray-0.9.1.9/numo/narray.so"
-
+$CPPFLAGS += " -I/usr/lib/x86_64-linux-gnu/ruby/vendor_ruby/2.7.0"
+$LIBS += " /usr/lib/x86_64-linux-gnu/ruby/vendor_ruby/2.7.0/narray.so"
 create_makefile "Gaussian"

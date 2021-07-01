@@ -12,7 +12,7 @@
 #include <time.h>
 // #include <pthread.h>
 #include <ruby.h>
-#include <numo/narray.h>
+#include <narray.h>
 #include "gaussian.h"
 
 
