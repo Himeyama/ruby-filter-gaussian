@@ -11,14 +11,21 @@
 
 ## インストール
 
+### Numo-NArray のインストール
+C 言語で Numo-NArray を使用するのでライブラリをインストールします。
+```sh
+curl -s https://raw.githubusercontent.com/Himeyama/ruby-filter-gaussian/main/install-libnarray.sh | bash
+```
+
+GitHub から、`ruby-filter-gaussian` をインストールするには以下のコマンドを実行します。
 ```sh
 gem install specific_install
 gem specific_install -l "git://github.com/himeyama/ruby-filter-gaussian.git"
 ```
 
-or
 
-**Gemfile**
+**Gemfile** に記述する場合は以下のようにして `bundle`。
+
 ```rb
 gem "gaussian-filter", github: "himeyama/ruby-filter-gaussian.git", branch: :main
 ```

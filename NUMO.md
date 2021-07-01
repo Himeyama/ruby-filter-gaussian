@@ -17,4 +17,5 @@ cd -
 sudo rm -rf /usr/local/include/numo/
 sudo rm /usr/lib/libnarray.so
 rm -rf /tmp/numo-narray/
+
 ```
