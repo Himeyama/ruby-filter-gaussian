@@ -52,12 +52,12 @@ f64 n_dot(i64 n, i64 r, i64 size, f64 *x, i64 i, f64 *gk){
 // ガウシアンフィルターの重み配列生成
 // sd: 標準偏差
 // n: カーネルの大きさ (n * 2 + 1)
-double* gaussian_kernel(double sd, long n){
-    double* w = (double*)malloc(sizeof(double) * (2 * n + 1));
-    double sum = 0;
-    for(long i = -n; i <= n; i++)
+f64* gaussian_kernel(f64 sd, i64 n){
+    f64* w = (f64*)malloc(sizeof(f64) * (2 * n + 1));
+    f64 sum = 0;
+    for(i64 i = -n; i <= n; i++)
         sum += (w[i+n] = exp(-0.5 * i * i / (sd * sd)));
-    for(long i = -n; i <= n; i++)
+    for(i64 i = -n; i <= n; i++)
         w[i+n] /= sum;
     return w;
 }
@@ -80,35 +80,29 @@ f64* n_gauss_func(i64 r, f64 sd){
 // v: 配列
 // n: 配列の大きさ
 // len: 片端補完サイズ
-double* dreflect(double *v, long n, long len){
+f64* dreflect(f64 *v, i64 n, i64 len){
     if(n < len){
         fprintf(stderr, "エラー: 両端の大きさが元の配列より大きいため、補完できません。\n");
         return NULL;
     };
-    long r_size = n + 2 * len;
-    double* r = (double*)malloc(sizeof(double) * r_size);
-    for(long i = 0; i < n; i++){
+    i64 r_size = n + 2 * len;
+    f64* r = (f64*)malloc(sizeof(f64) * r_size);
+    for(i64 i = 0; i < n; i++){
         r[len + i] = v[i];
     }
-    for(long i = 0; i < len; i++){
+    for(i64 i = 0; i < len; i++){
         r[len - i - 1] = v[i];
         r[len + n + i] = v[n - i - 1];
     }
     return r;
 }
 
-
-// 畳み込み
-// input: 入力配列
-// input_size: 配列の大きさ
-// weights: 重み配列
-// weights_size: 重み配列の大きさ
-double* correlate1d(double* input, long input_size, double* weights, long weights_size, double* dst){
-    long n = input_size - weights_size;
-    double* r = dst;
-    for(long i = 0; i <= n; i++){
-        double sum = 0;
-        for(long j = 0; j < weights_size; j++)
+f64* correlate1d(f64* input, i64 input_size, f64* weights, i64 weights_size, f64* dst){
+    i64 n = input_size - weights_size;
+    f64* r = dst;
+    for(i64 i = 0; i <= n; i++){
+        f64 sum = 0;
+        for(i64 j = 0; j < weights_size; j++)
             sum += weights[weights_size - j - 1] * input[i + j];
         r[i] = sum;
     }
@@ -119,9 +113,9 @@ double* correlate1d(double* input, long input_size, double* weights, long weight
 // 反転したベクトルを返します
 // v: 配列
 // size: 配列の大きさ
-double* dreverse(double v[], long size){
-    double* r = malloc(sizeof(double) * size);
-    for(long i = 0; i < size; i++)
+f64* dreverse(f64 v[], i64 size){
+    f64* r = malloc(sizeof(f64) * size);
+    for(i64 i = 0; i < size; i++)
         r[i] = v[size-i-1];
     return r;
 }
@@ -149,6 +143,6 @@ void* _gaussian_filter1d_dfloat(GaussianArgsRetRb* ga){
     free(tmp);
     free(weights);
     free(s);
-    
+
     return NULL;
 }
