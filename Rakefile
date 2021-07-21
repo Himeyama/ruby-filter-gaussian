@@ -9,4 +9,4 @@ Rake::ExtensionTask.new "Gaussian" do |ext|
     ext.lib_dir = "ext"
 end
 
-task :default => :Gaussian
+task :default => :compile
