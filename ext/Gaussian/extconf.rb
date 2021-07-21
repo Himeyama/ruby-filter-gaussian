@@ -1,8 +1,7 @@
 require 'mkmf'
+require "rubygems"
 
-lib_path = `gem env gempath`.split(":")[1] + "/gems/numo-*"
-numo_path = Dir.glob(lib_path)[0]
-lib_numo_path = "#{numo_path}/lib/numo"
+narray_dir = File.dirname(Gem.find_files("narray.h").first)
 
 $LIBS += " #{lib_numo_path}/narray.so"
 
