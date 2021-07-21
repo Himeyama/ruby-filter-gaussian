@@ -6,5 +6,5 @@ task default: %i[]
 require "rake/extensiontask"
 
 Rake::ExtensionTask.new "Gaussian" do |ext|
-    ext.lib_dir = "lib/gaussian/filter"
+    ext.lib_dir = "ext"
 end
