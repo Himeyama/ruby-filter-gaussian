@@ -30,5 +30,5 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["ext"]
   spec.extensions = %w[ext/Gaussian/extconf.rb]
 
-  # spec.extensions << "ext/extconf.rb"
+  spec.add_dependency "numo-narray", "0.9.1.3"
 end
