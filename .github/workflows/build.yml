@@ -16,8 +16,8 @@ jobs:
       - name: Build
         run: | 
           gem install --no-document bundler
-          gem build numo-narray.gemspec
-          gem install numo-narray-*.gem
+          gem build gaussian-filter.gemspec
+          gem install gaussian-filter-*.gem
           bundle install
       - name: Test
         run: rake test
