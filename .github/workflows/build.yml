@@ -1,0 +1,20 @@
+name: build
+
+on: 
+  push:
+
+jobs:
+  release-versions:
+    name: Build ruby-filter-gaussian
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version : 2.7
+      - name: Build
+        run: | 
+          gem install specific_install
+          gem specific_install -l "git://github.com/himeyama/ruby-filter-gaussian.git"
+      
