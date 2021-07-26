@@ -15,6 +15,10 @@ jobs:
           ruby-version : 2.7
       - name: Build
         run: | 
-          gem install specific_install
-          gem specific_install -l "git://github.com/himeyama/ruby-filter-gaussian.git"
+          gem install --no-document bundler
+          gem build numo-narray.gemspec
+          gem install numo-narray-*.gem
+          bundle install
+      - name: Test
+        run: rake test
       
