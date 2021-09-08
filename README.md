@@ -15,7 +15,7 @@
 GitHub から、`ruby-filter-gaussian` をインストールするには以下のコマンドを実行します。
 ```sh
 gem install specific_install
-gem specific_install -l "himeyama/ruby-filter-gaussian.git"
+gem specific_install -l himeyama/ruby-filter-gaussian
 ```
 
 
