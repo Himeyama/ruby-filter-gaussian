@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     gaussian-filter (0.0.1)
+      numo-narray
 
 GEM
   remote: https://rubygems.org/
@@ -21,4 +22,4 @@ DEPENDENCIES
   rake-compiler
 
 BUNDLED WITH
-   2.2.19
+   2.2.24
