@@ -5,7 +5,7 @@
 Gem::Specification.new do |spec|
   spec.name          = "gaussian-filter"
   # spec.version       = Gaussian::Filter::VERSION
-  spec.version       = "0.0.1"
+  spec.version       = "0.0.2"
   spec.authors       = ["Murata Mitsuharu"]
   spec.email         = ["hikari.photon+mygit@gmail.com"]
 
