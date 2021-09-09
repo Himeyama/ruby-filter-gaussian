@@ -1,5 +1,6 @@
 # ruby-filter-gaussian
 [![build](https://github.com/Himeyama/ruby-filter-gaussian/actions/workflows/build.yml/badge.svg)](https://github.com/Himeyama/ruby-filter-gaussian/actions/workflows/build.yml)
+[![Gem Version](https://badge.fury.io/rb/gaussian-filter.svg)](https://badge.fury.io/rb/gaussian-filter)
 
 ## 概要
 ガウシアンフィルターの Ruby 拡張。データが複数の場合は並列計算を行うため高速に計算されます。
