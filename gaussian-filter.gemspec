@@ -4,24 +4,12 @@
 
 Gem::Specification.new do |spec|
   spec.name          = "gaussian-filter"
-  # spec.version       = Gaussian::Filter::VERSION
-  spec.version       = "0.0.2"
+  spec.version       = "0.0.3"
   spec.authors       = ["Murata Mitsuharu"]
-  spec.email         = ["hikari.photon+mygit@gmail.com"]
-
-  spec.summary       = ""
-  spec.description   = ""
+  spec.email         = ["hikari.photon+dev@gmail.com"]
+  spec.summary       = "Gaussian Filter"
   spec.homepage      = "https://himeyama.github.io"
   spec.required_ruby_version = ">= 2.4.0"
-
-  spec.metadata["allowed_push_host"] = ""
-
-  spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "#{spec.homepage}"
-  spec.metadata["changelog_uri"] = "#{spec.homepage}"
-
-  # Specify which files should be added to the gem when it is released.
-  # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
     `git ls-files -z`.split("\x0").reject { |f| f.match(%r{\A(?:test|spec|features)/}) }
   end
